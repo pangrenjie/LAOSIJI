@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>搜索页</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script>
+function goback(){
+	location.replace('/');
+}
+window.onload=function(){
+    var oBack=document.getElementById('back');
+
+
+ serch.onclick=function(){
+                     var serchData=document.getElementById('serchData').value;
+                     if(serchData.length==0){
+                        return false;
+                     }else{
+                         
+                        location.replace('/sousuo/?data='+serchData);
+                     }
+                }
+
+    oBack.onclick=function(){
+                ajax({
+                    url:'/',
+                    type:'post',
+                    data:{act:'back'},
+                    success:function(str){
+                        var json=eval("("+str+")");
+                        if(json.ok){
+                            alert(json.msg);
+                            location.replace('/login');
+                        }
+                    },
+                    error:function(){
+                        alert('通信失败');
+                    }
+                });
+            } 
+
+function json2url(json){
+    var arr=[];
+    for(var name in json){
+        arr.push(name+'='+json[name]);
+    }
+    return arr.join('&');
+}
+function ajax(json){
+    json=json || {};
+    if(!json.url)return;
+    json.data=json.data || {};
+    json.type=json.type || 'get';
+
+    var timer=null;
+
+    if(window.XMLHttpRequest){
+        var oAjax=new XMLHttpRequest();
+    }else{
+        var oAjax=new ActiveXObject('Microsoft.XMLHTTP');
+    }
+
+    switch(json.type){
+        case 'get':
+            oAjax.open('GET',json.url+'?'+json2url(json.data),true);
+            oAjax.send();
+            break;
+        case 'post':
+            oAjax.open('POST',json.url,true);
+            oAjax.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+            oAjax.send(json2url(json.data));
+            break;
+    }
+
+    oAjax.onreadystatechange=function(){
+        if(oAjax.readyState==4){
+            clearTimeout(timer);
+            if(oAjax.status>=200 && oAjax.status<300 || oAjax.status==304){
+                json.success && json.success(oAjax.responseText);
+            }else{
+                json.error && json.error(oAjax.status);
+            }
+        }
+    };
+}
+}
+        </script>  
+        <style>
+            *{margin:0;padding:0}
+            a{text-decoration: none}
+            #back,.goback{height:30px;width:30%;border:1px solid #d43f3a;background:#d9534f;border-radius:4px;color:white;outline: none;font-family:'微软雅黑';margin:10px}
+            .goback{background:#f0ad4e;border:1px solid #eea236}
+            .goback:active{background:#ec971f}
+            #back:active{background:#ac2925;}
+            .page{text-align: center}
+            ul{margin-top:20px}
+            li .left{width:40%;float:left;padding-left:20px;box-sizing: border-box;}
+            li .left img{height:150px;}
+            li .right{width:60%;float:right;padding:40px 10px 0 0;box-sizing: border-box}
+            .clear{clear:both;}
+             #serch{height:36px;width:30%;border-radius: 4px; border:none;background:yellow;outline: none;margin:10px 0 10px 0;}
+            #serchData{height:36px;margin:10px 3px 10px 10px;width:60%;border-radius: 4px;border:1px solid greenyellow;outline: none}
+            #serch:active{background:yellowgreen}
+        </style>  
+    </head>
+
+    <body>
+        <div class='page'>
+            <button class='goback' onclick="goback()">返回</button>  
+            <button id='back'>退出登录</button>
+
+        </div>
+        <input type="text" id='serchData'><button id='serch'>搜索</button>
+       <ul>
+           <%if(data.length==0){%>
+           <h4>没有符合搜索的内容。。。</h4>
+           <%}else if(data.length>30){%>
+           <h4>您搜索的内容太长，请加多点关键字谢谢</h4>
+           <%}else{%>
+                <%for(var i=0;i<data.length;i++){%>
+
+               <li>
+                   <div class='left'>
+                        <a href="/chakan?id=<%= data[i].id%>"><img class='img' src="<%= data[i].title_img%>" alt="<%= data[i].id%>"></a>
+                   </div>
+                   <div class='right'>
+                        <a href="/chakan?id=<%= data[i].id%>"><%= data[i].name%></a>
+                   </div>
+                   
+               </li>
+               <span class='line'></span>
+                 <li class='clear'></li>          
+                <%}%>
+           <%}%>
+       </ul>
+
+    </body>
+</html>

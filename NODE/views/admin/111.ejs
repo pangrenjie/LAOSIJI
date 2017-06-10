@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+         <link rel="stylesheet" href="css/bootstrap.min.css">
+
+         <style>
+             .container{margin:6rem auto}
+         </style>
+
+    </head>
+    <body>
+        <div class="login">
+            <div class="container">
+                <fieldset class='col-sm-offset-3 row col-sm-6 text-center'>
+                    <legend class="text-center">你懂得</legend>
+                    <form role='form' action="/login" method="post">
+                        
+                        <div class="form-group row">
+                            <label for="username" class="control-label col-xs-3 col-xs-offset-1 ">账号:</label>
+                            <div class='col-xs-6'>
+                                <input type="text" class='form-control col-xs-offset-1' id='username'  name='username'>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="password" class="control-label col-xs-3 col-xs-offset-1">密码:</label>
+                            <div class='col-xs-6'>
+                                <input type="password" class='form-control col-xs-offset-1' id='password' name='password'>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <input type="submit"  value="登录" class='btn btn-primary col-xs-2 col-xs-offset-4' id='login'>
+                            <input type="button"  value="退出" class='btn btn-danger col-xs-2 col-xs-offset-1'  id="back">
+                        </div>
+                    </form>
+                </fieldset>
+            </div>
+        </div>
+    </body>
+</html>

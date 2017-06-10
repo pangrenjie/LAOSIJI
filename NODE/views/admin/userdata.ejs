@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="js/bootstrap.js" charset="utf-8"></script>
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <script src='js/ajax.js' charset='utf-8'></script>
+        <script>
+            window.onload=function(){
+                var oBack=document.getElementById('back');
+                var serch=document.getElementById('serch');
+                var serchData=document.getElementById('serchData');
+
+                serch.onclick=function(){
+                     var serchData=document.getElementById('serchData').value;
+                     if(serchData.length==0){
+                        return false;
+                     }else{
+                         
+                        location.replace('/sousuo/?data='+serchData);
+                     }
+                }
+
+                oBack.onclick=function(){
+                    ajax({
+                        url:'/',
+                        type:'post',
+                        data:{act:'back'},
+                        success:function(str){
+                            var json=eval("("+str+")");
+                            if(json.ok){
+                                alert(json.msg);
+                                location.replace('/login');
+                            }
+                        },
+                        error:function(){
+                            alert('通信失败');
+                        }
+                    });
+                }  
+            }
+        </script>
+        <style>
+            .ul{margin: 10px auto;}
+            *{margin:0;padding:0}
+            .ul li{list-style: none;text-align:center}
+            .div{margin :10px auto;text-align: center;}
+            .clear{clear: both}
+            .div1{text-align: center;width:100%;height:auto;margin-top:20px;}
+            .div1 a{display:inline-block;height:3rem;width:30%;background:greenyellow;line-height:3rem;border-radius: 1.5rem}
+            .div1 a:active{background:yellow}
+            .btn11{text-align: left;width:30%;text-align: center;}
+            #top{display:block;height:2rem;width:30%;background:lightblue;margin: 25px auto;text-align: center;line-height: 2rem;border-radius: 1rem}
+            body{margin:20px auto;background:lightcyan}
+            a{text-decoration: none;}
+            #serch{height:36px;width:30%;border-radius: 4px; border:none;background:yellow;outline: none;margin:10px 0 10px 0;}
+            #serchData{height:36px;margin:10px 3px 10px 0;width:65%;border-radius: 4px;border:1px solid greenyellow;outline: none}
+            #serch:active{background:yellowgreen}
+        </style>
+    </head>
+    <body>
+        <div class='container'>
+            <button class="btn-danger btn btn11 btn-big" id='back'>退出登录</button> 
+            <div class='clear'> </div>
+
+            <input type="text" id='serchData'><button id='serch'>搜索</button>
+
+            <%if(data.length==0){%>
+            <h2>没有数据。。。。</h2>
+            <%}else{%>
+            <div class='div1'>
+                <a href="/?page=<%= (parseInt(data[0].id)-1)/10-1%>" >上一页</a>
+                <a href='/?page=<%= (parseInt(data[data.length-1].id))/10%>'>下一页</a>
+            </div>
+            <ul class='ul'>
+                <%for(var i=0;i<data.length;i++){%>
+                <li>   
+                    <div class='div'><h4><a href='/chakan?id=<%= data[i].id%>'><%= data[i].name%></a></h4></div>
+                    <a href='/chakan?id=<%= data[i].id%>'>
+                    <img src="<%= data[i].title_img%>" height='250px'></a>
+                    <hr>
+                    
+                </li>
+                <%}%>
+            </ul>
+            <%var a=data.length;%>
+            <div class='div1'>
+                <a href="/?page=<%= parseInt(data[0].id)-1%>" >上一页</a>
+                <a href='/?page=<%= (parseInt(data[data.length-1].id))/10%>'>下一页</a>
+            </div>
+            <%}%>
+            <a href="#" id='top'>回到顶部</a>
+      </div>
+    </body>
+</html>

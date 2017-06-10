@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="fonts/iconfont.css">
+        <script src="js/ajax.js" charset="utf-8"></script>
+        <style>
+        *{margin:0;padding:0}
+        body{
+            background:url('/img/timg.jpg') #07111a no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+        #login{height:300px;width:450px;background:#ddd;opacity: 0.7;border-radius:20px;
+            position: absolute;left:15%;top:35%;
+            box-shadow: 0 0 60px 10px #888
+        }
+        .username{height:50px;width:80%;
+            border:none;
+
+            font-size:18px;
+            display:block;
+            text-indent: 40px;   
+        }
+        .password{
+            height:50px;width:80%;
+            border:none;
+
+            font-size: 18px;
+            display:block;
+            text-indent: 40px;
+            margin-top:20px;
+            background:#fff;
+        }
+        .input{
+            margin-top:20px;
+            margin-left: 48px;
+
+        }
+        #user-icon{
+            font-size: 24px;color: #3c22e6;
+            position:absolute;
+            top:90px;
+            left:57px;
+        }
+        #pass-icon{
+            font-size: 24px;color: #df8221;
+            position:absolute;
+            top: 160px;
+            left:57px;
+        }
+        .loglog{
+            margin-top:30px;
+        }
+        #ppp{
+            position: absolute;
+            bottom:20px;
+            right:50px;
+            font-family: "Vladimir Script";
+            color:white;
+            font-size: 2.5rem;
+        }
+        .btn{
+            display:inline-block;
+            border:none;
+
+            height:50px;
+            width:50%;
+            outline: none;
+            font-size:18px;
+        }
+        div .log{
+            display:none
+        }
+        .active{
+            background:#FFF;
+        }
+        .submit{
+            display:block;height:40px;width:40%;
+            margin:20px auto;
+            border:none;
+            background:#999;
+            font-size: 18px;
+            color:white;
+            
+        }
+        </style>
+        <script>
+            window.onload=function(){
+                var oDiv=document.getElementById('login');
+                var abtn=oDiv.getElementsByClassName('btn');
+                var adiv=oDiv.getElementsByClassName('log');
+                for(var i=0;i<abtn.length;i++){
+                    abtn[i].index=i;
+                    abtn[i].onclick=function(){
+                        for(var i=0;i<abtn.length;i++){
+                            abtn[i].className='btn active';
+                            adiv[i].style.display='none';
+                        }
+                        this.className='btn';
+                        adiv[this.index].style.display='block';
+                    }
+                }
+            }
+        </script>
+    </head>
+    <body>
+    <div id='login'>
+        <button type="button" class='btn'>登录</button><button type="button" class='btn active'>注册</button>
+        <div class='log' style='display:block'>
+            <form  action="/login" method="post">
+                <div class='loglog'>
+                    <i class="iconfont icon-yonghu1" id="user-icon"></i>
+                    <input type="text" class="username input" id="username" name='username' placeholder="输入用户名">
+                    <i class="iconfont icon-mima" id="pass-icon"></i>
+                    <input type="password" class="password input" id="password" name='password' placeholder="输入密码">
+                    <input type="submit" value='登录' class='submit'>
+                </div>
+            </form>
+        </div>
+        <div class='log'>
+            <form>
+                <div class='loglog'>
+                    <i class="iconfont icon-yonghu1" id="user-icon"></i>
+                    <input type="text" class="username input" id="username" placeholder="设置用户名">
+                    <i class="iconfont icon-mima" id="pass-icon"></i>
+                    <input type="password" class="password input" id="password" placeholder="设置密码">
+                    <input type="submit" value='注册' class='submit'>
+                </div>
+            </form>
+        </div>
+    </div>
+    <p id='ppp'>We are still alone </p>
+    </body>
+</html>

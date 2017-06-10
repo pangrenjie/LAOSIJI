@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+        #aaa{height:3rem;width:80%;resize: none}
+        body{margin-top:30px auto;text-align: center}
+        .pp{margin-top:30px;margin-bottom: 10px;}
+        #btn{display:block;height:35px;width:40%;background:greenyellow;font-family: '微软雅黑';border-radius: 10px;
+            margin:5px auto;
+        }
+        
+        .aa{margin:5px 10px;display:inline-block;height:2rem;width:30%;line-height:2rem;background:#ddd;border-radius: 6px;}
+        .bb{display:block;height:2.0rem}
+        a{text-decoration: none;}
+        ul{width:100%;padding:0;margin:0}
+        ul li{list-style: none;display:block;}
+        .imgs img{display:block;margin:5px auto}
+        </style>
+    </head>
+    <body>
+    <p class='pp'><a href="/" class='bb aa'>回到首页</a></p>
+    <p><%= data[0].name%><p>
+    <img src="<%= data[0].title_img%>" alt="" height='300px'>
+    <textarea id="aaa"><%= data[0].download%></textarea>
+    <button type="button"  id='btn'>复制上面的链接</button>
+    <ul>
+        <%for(var i=0;i<imgs.length;i++){%>
+        <li class='imgs'><img src="<%= imgs[i]%>" width='100%'></li>
+        <%}%>
+    </ul>
+    <a href="/chakan?id=<%= parseInt(data[0].id)-1%>" class='aa'>上一页</a>
+    <a href='/chakan?id=<%= parseInt(data[0].id)+1%>' class="aa">下一页</a>
+<script type="text/javascript">
+    function copyUrl2()
+    {
+
+        var Url2=document.getElementById("aaa");
+        Url2.select(); // 选择对象
+        window.document.execCommand("Copy",'false',null); // 执行浏览器复制命令
+        alert("成功复制");
+       
+        
+    }
+    document.getElementById('btn').onclick=function(){
+        copyUrl2();
+    }
+</script>
+
+    </body>
+</html>

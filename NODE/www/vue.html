@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>vue测试</title>
+
+    <script src="js/jquery.js" charset="utf-8"></script>
+    <script src="js/bootstrap.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/vue.min.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        window.onload=function(){
+          new Vue({
+            el:'.container',
+            data:{
+              userdata:[],
+              username:'',
+              age:'',
+              newIndex:-42,
+              dialog:'dfbsdf',
+              msg1:'',
+              seen1:false,
+              seen2:false,
+            },
+            methods:{
+              add:function(){
+                this.username=this.username.replace(/^\s+/,'').replace(/$\s+/,'')
+                this.age=this.age.replace(/^\s+/,'').replace(/$\s+/,'')
+                if(this.username=='' && this.age==''){
+                  this.seen1=true;
+                  this.seen2=true;
+                }else if(this.username==''){
+                  this.seen2=false;
+                  this.seen1=true;
+
+                }else if(this.age==''){
+                  this.seen1=false;
+                  this.seen2=true;
+                }else{
+                  this.userdata.push({
+                    name:this.username,
+                    age:this.age,
+                  });
+                  this.seen2=false;
+                  this.seen1=false;
+                }
+              },
+              reset:function(){
+                this.username="";
+                this.age='';
+              },
+              delmsg:function(n){
+                if(n==-1){
+                  this.userdata=[];
+                }else{
+                  this.userdata.splice(n,1);
+                }
+              },
+              msg:function(){
+                if(this.newIndex==-1){
+                  this.dialog='确认全部删除么？'
+                }else{
+                  this.dialog='确认删除么？';
+                }
+              }
+            }
+          })
+        }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <form role='form'>
+        <div class="form-group">
+          <label for="username">用户名：</label><span style='color:red'v-show='seen1'>用户名不能为空！</span>
+          <input type="text" class='form-control' id='username' v-model='username'>
+        </div>
+        <div class="form-group">
+          <label for="age">年&nbsp;&nbsp;&nbsp;&nbsp;龄：</label><span style='color:red' v-show='seen2'>年龄不能为空！</span>
+          <input type="text" class='form-control' id='age' v-model='age'>
+        </div>
+        <div class="form-group">
+          <input type="button"  value="添加" class='btn btn-primary' @click='add()'>
+          <input type="button"  value="重置" class='btn btn-danger' v-on:click='reset()'>
+        </div>
+      </form>
+      <hr>
+      <table class='table table-hover'>
+        <caption class='text-center h3'>用户信息表</caption>
+        <tr>
+          <th class='text-center'>ID</th>
+          <th  class='text-center'>用户名</th>
+          <th  class='text-center'>年龄</th>
+          <th  class='text-center'>操作</th>
+        </tr>
+        <tr  class='text-center' v-for="(value,key) in userdata">
+          <td>{{key+1}}</td>
+          <td>{{value.name}}</td>
+          <td>{{value.age}}</td>
+          <td><button type="button" class='btn btn-danger' data-toggle='modal' data-target='#layer' v-on:click='newIndex=key;msg()'>删除</button></td><!--点击时把key赋给newIndex-->
+        </tr>
+
+        <tr class='text-center' v-show='userdata.length!=0'>
+          <td colspan='4'>
+            <button type="button" name="button" class='btn btn-danger' data-toggle='modal' data-target='#layer' v-on:click='newIndex=-1;msg()'>全部删除</button>
+          </td>
+        </tr>
+        <tr class='text-center' v-show='userdata.length==0'>
+          <td colspan='4'>
+            <p>没有数据...</p>
+          </td>
+        </tr>
+      </table>
+
+      <!-- 模态框-->
+      <div role='dialog' class="modal fade  bs-example-modal-sm" id='layer'>
+          <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss='modal' >
+                    <span>&times;</span>
+                  </button>
+                  <h4 class='modal-title'>{{dialog}}</h4>
+                  <div class="modal-body text-right" >
+                    <button type="button" class='btn btn-primary btn-sm' data-dismiss='modal'>取消</button>
+                    <button type="button" class='btn btn-danger btn-sm' v-on:click='delmsg(newIndex)' data-dismiss='modal'>确定</button><!--确定时把newIndex传给delmsg-->
+                  </div>
+                </div>
+            </div>
+          </div>
+      </div>
+
+
+
+
+
+    </div>
+  </body>
+</html>
