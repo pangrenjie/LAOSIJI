@@ -3,9 +3,9 @@ const cheerio=require('cheerio');
 const fs=require('fs');
 const request = require('request');
 const mysql=require('mysql');
-//var n=404;var m=3;  
+//var n=1;var m=0;  
 
-var n=242 ;var m=4;    //子页的页码从0开始
+var n=251 ;var m=9;    //子页的页码从0开始
 var num=0;
 var ccc=1;
  
@@ -94,7 +94,7 @@ function child(url,n,m,href){
                 }else{
                     console.log('一共有'+imgs_src.length+'张图片'+'--'+'当前子页是：'+m+'--当前父页是：'+n)
                     var p2=new Promise(function(res,rej){
-                        var wws=fs.createWriteStream('./title/'+n+'-'+m+'_'+title_img_name);
+                        var wws=fs.createWriteStream('./NODE/www/title/'+n+'-'+m+'_'+title_img_name);
                         request(title_img_src).pipe(wws);
                         wws.on('finish',function(){
                             var titleImgSrc=n+'-'+m+'_'+title_img_name;
@@ -102,6 +102,8 @@ function child(url,n,m,href){
                         })
                     }).then(function(value){
                         if(value){
+
+
                             for(var i=0;i<imgs_src.length;i++){
                                 var img_title=imgHref[i].split('/');
                                 img_title=img_title[img_title.length-1];
@@ -112,7 +114,9 @@ function child(url,n,m,href){
                                 }
                             saveimg(img_title,img_src,n,imgs_src.length,href,time,m, imgHref,value,title,downloadLink,update);
                             } 
-                        }
+                        
+
+                        }                       
                     })
                 }
             }
@@ -124,7 +128,7 @@ function saveimg(title,src,n,imglenght,href,time,m,imgHref,imgTitleSrc,title_nam
     
     clearTimeout(timer);
     var imgTitle=n+'_'+m+'_'+title;
-    var ws=fs.createWriteStream('./pic/'+imgTitle); //在外面定义ws这个变量
+    var ws=fs.createWriteStream('./NODE/www/pic/'+imgTitle); //在外面定义ws这个变量
     const p= Promise.race([         //定一个promise.race 进行竞赛如果读取一个图片的时间超过10s 就让程序重启
         new Promise(function(res,rej){
             request(src,function(err,body){

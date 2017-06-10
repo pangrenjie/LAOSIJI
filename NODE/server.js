@@ -69,7 +69,7 @@ var page='';
             page=req.query.page;
       }
       
-     db.query(`SELECT * FROM new LIMIT ${page*10},10`,(err,data)=>{
+     db.query(`SELECT * FROM pc_new LIMIT ${page*10},10`,(err,data)=>{
         if(err){
             res.status(500).send('数据库错误').end();
         }else{
@@ -114,6 +114,7 @@ server.post('/login',(req,res)=>{
     var username=req.body.username;
     var password=common.md5(req.body.password+common.md5_secret);
        // password=common.md5(password+common.md5_secret);
+       console.log(password)
     console.log(req.body);
       db.query(`SELECT * FROM admin WHERE username="${username}"`,function(err,data){
           if(err){
@@ -141,7 +142,7 @@ server.use('/chakan',(req,res)=>{
             res.redirect('/chakan?id=1');
         }else{
             var id=[req.query.id];
-            db.query('SELECT * FROM new WHERE id=?',id,(err,data)=>{
+            db.query('SELECT * FROM pc_new WHERE id=?',id,(err,data)=>{
                 if(err){
                     res.status(500).send('数据库错误').end();
                 }else{
