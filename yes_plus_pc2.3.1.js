@@ -5,7 +5,7 @@ const request = require('request');
 const mysql=require('mysql');
 //var n=1;var m=0;  
 
-var n=251 ;var m=9;    //子页的页码从0开始
+var n=1 ;var m=0;    //子页的页码从0开始
 var num=0;
 var ccc=1;
  
@@ -17,10 +17,10 @@ var db=mysql.createPool({
 })
 function fetchPage(n,m) {     //封装了一层函数 
     if(n==1){
-        var url='https://6666av.co/list/'+ccc+'.html';
+        var url='https://7777av.co/list/'+ccc+'.html';
         father(url,m,n); 
     }else{
-        var url='https://www.6666av.co/list/'+ccc+'-'+n+'.html';
+        var url='https://www.7777av.co/list/'+ccc+'-'+n+'.html';
         //http://m.444lu.co/vlist.php?classid=2
         father(url,m,n); 
     }
@@ -47,7 +47,7 @@ function father(url,m,n){
 function changeLink(n,m,href){
     if(m <= href.length-1){
         //把所有的子连接传给子函数爬取信息
-        let newLink='https://www.6666av.co'+href[m];
+        let newLink='https://www.7777av.co'+href[m];
         child(newLink,n,m,href);
     }else if(m>href.length-1){
         m=0;
