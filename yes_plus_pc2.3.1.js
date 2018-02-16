@@ -5,7 +5,7 @@ const request = require('request');
 const mysql=require('mysql');
 //var n=1;var m=0;  
 
-var n=1 ;var m=0;    //子页的页码从0开始
+var n=16 ;var m=10;    //子页的页码从0开始
 var num=0;
 var ccc=1;
  
@@ -17,10 +17,10 @@ var db=mysql.createPool({
 })
 function fetchPage(n,m) {     //封装了一层函数 
     if(n==1){
-        var url='https://7777av.co/list/'+ccc+'.html';
+        var url='https://555av.vip/list/'+ccc+'.html';
         father(url,m,n); 
     }else{
-        var url='https://www.7777av.co/list/'+ccc+'-'+n+'.html';
+        var url='https://www.555av.vip/list/'+ccc+'-'+n+'.html';
         //http://m.444lu.co/vlist.php?classid=2
         father(url,m,n); 
     }
@@ -29,8 +29,8 @@ const base_headers={
     Accept:'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
     'Accept-Encoding':'gzip, deflate, sdch',
     'Accept-Language':'zh-CN,zh;q=0.8,en;q=0.6',
-    'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36',
-   //'User-Agent':'Mozilla/5.0 (Linux; Android 5.0; SM-G900P Build/LRX21T) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Mobile Safari/537.36'
+    //'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36',
+   'User-Agent':'Mozilla/5.0 (Linux; Android 5.0; SM-G900P Build/LRX21T) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Mobile Safari/537.36'
 };  
 function father(url,m,n){
     var href=[];
@@ -47,7 +47,7 @@ function father(url,m,n){
 function changeLink(n,m,href){
     if(m <= href.length-1){
         //把所有的子连接传给子函数爬取信息
-        let newLink='https://www.7777av.co'+href[m];
+        let newLink='https://555av.vip'+href[m];
         child(newLink,n,m,href);
     }else if(m>href.length-1){
         m=0;
@@ -65,7 +65,7 @@ function child(url,n,m,href){
         var $=cheerio.load(res.text,{decodeEntities: false});
         var title=$('div#main div.view div.pic img').attr('alt')
         var update=$("div.info li div.fl").html().replace(/<span.+span>/g,'');
-        var title_img_src='http:'+$('div#main div.view div.pic img').attr('src')
+        var title_img_src='https:'+$('div#main div.view div.pic img').attr('src')
         var title_img_name=title_img_src.split('/');
             title_img_name=title_img_name[title_img_name.length-1];
         var downloadLink=$('div.endpage div.mox div.played2k textarea').html()//链接
@@ -110,7 +110,7 @@ function child(url,n,m,href){
                                 if(imgHref[i].indexOf('http')!=-1){
                                         var img_src=imgHref[i];
                                 }else{
-                                        var img_src='http:'+imgHref[i];
+                                        var img_src='https:'+imgHref[i];
                                 }
                             saveimg(img_title,img_src,n,imgs_src.length,href,time,m, imgHref,value,title,downloadLink,update);
                             } 
